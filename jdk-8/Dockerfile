@@ -25,17 +25,17 @@ RUN INSTALL_PKGS="tar unzip bc which lsof $JAVA" && \
     tar -zx -C /usr/local) && \
     ln -sf /usr/local/apache-maven-$MAVEN_VERSION/bin/mvn /usr/local/bin/mvn && \
     mkdir -p $HOME/.m2 && \
-    mkdir -p /app && \
+    mkdir -p /apps && \
     mkdir -p /opt/s2i/destination
 
 # Add s2i maven customizations
-ADD contrib $HOME/.m2/
+ADD contrib/settings.xml $HOME/.m2/
 
 # Copy the S2I scripts from the specific language image to $STI_SCRIPTS_PATH
-COPY s2i $STI_SCRIPTS_PATH
+COPY s2i/bin $STI_SCRIPTS_PATH
 
-RUN chown -R 1001:0 /app && chown -R 1001:0 $HOME && \
-    chmod -R ug+rwx /app && \
+RUN chown -R 1001:0 /apps && chown -R 1001:0 $HOME && \
+    chmod -R ug+rwx /apps && \
     chmod -R g+rw /opt/s2i/destination
 
 USER 1001
