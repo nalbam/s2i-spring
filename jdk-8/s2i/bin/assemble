@@ -10,6 +10,9 @@ mkdir -p ${LOCAL_SOURCE_DIR}
 # artifacts (*.war, *.jar)
 ARTIFACT_DIR=${ARTIFACT_DIR:-target}
 
+# Resulting JAR files will be deployed to $APP_HOME
+mkdir -p ${APP_HOME}
+
 MAVEN_ARGS=${MAVEN_ARGS:=""}
 MAVEN_SETTINGS=${MAVEN_SETTINGS:=""}
 MAVEN_ARGS_APPEND=${MAVEN_ARGS_APPEND:=""}
