@@ -3,6 +3,7 @@ FROM openshift/base-centos7
 MAINTAINER Jungyoul Yu <jungyouol.yu@bespinglobal.com>
 
 EXPOSE 8080
+EXPOSE 8778
 
 ENV MAVEN_VERSION=3.5.3 \
     JAVA="java-1.8.0-openjdk java-1.8.0-openjdk-devel" \

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-APP_HOME=${APP_HOME:""}
+APP_HOME=${APP_HOME:="/apps"}
 
 # Source code provided to S2I is at ${HOME}
 LOCAL_SOURCE_DIR=${HOME}
@@ -10,11 +10,14 @@ mkdir -p ${LOCAL_SOURCE_DIR}
 # artifacts (*.war, *.jar)
 ARTIFACT_DIR=${ARTIFACT_DIR:-target}
 
+# Resulting JAR files will be deployed to $APP_HOME
+mkdir -p ${APP_HOME}
+
 MAVEN_ARGS=${MAVEN_ARGS:=""}
 MAVEN_SETTINGS=${MAVEN_SETTINGS:=""}
 MAVEN_ARGS_APPEND=${MAVEN_ARGS_APPEND:=""}
 
-POM_PATH=${POM_PATH:""}
+POM_PATH=${POM_PATH:="."}
 
 VERSION=${VERSION:=""}
 
@@ -79,30 +82,34 @@ if [ -f "$LOCAL_SOURCE_DIR/$POM_PATH/pom.xml" ]; then
     exit ${ERR}
   fi
 
-  JAR_NAME=${JAR_NAME:="*.war"}
-  JAR_PATH=$(find -name ${JAR_NAME})
+  ls -al ./target
+
+  JAR_NAME=${JAR_NAME:="*.jar"}
+  JAR_PATH=$(find ./target/${JAR_NAME})
 
   if [ ! -f ${JAR_PATH} ]; then
     echo "Aborting due to error : File not found, moving $JAR_PATH file, maybe it doesn't exist"
     exit 1
   fi
 
-  echo "Moving built war file $JAR_PATH into $APP_HOME for later deployment..."
+  echo "Moving built jar file $JAR_PATH into $APP_HOME/ROOT.jar for later deployment..."
   mv ${JAR_PATH} ${APP_HOME}/ROOT.jar
+
+  ls -al ${APP_HOME}
 
   popd &> /dev/null
 
 else
 
-  JAR_NAME=${JAR_NAME:="*.war"}
-  JAR_PATH=$(find -name ${JAR_NAME})
+  JAR_NAME=${JAR_NAME:="*.jar"}
+  JAR_PATH=$(find ./target/${JAR_NAME})
 
   if [ ! -f ${JAR_PATH} ]; then
     echo "Aborting due to error : File not found, moving $JAR_PATH file, maybe it doesn't exist"
     exit 1
   fi
 
-  echo "Moving built war file $JAR_PATH into $APP_HOME for later deployment..."
+  echo "Moving built jar file $JAR_PATH into $APP_HOME/ROOT.jar for later deployment..."
   mv ${JAR_PATH} ${APP_HOME}/ROOT.jar
 
 fi
