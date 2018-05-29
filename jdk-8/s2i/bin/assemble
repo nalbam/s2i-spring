@@ -93,6 +93,9 @@ if [ -f "$LOCAL_SOURCE_DIR/$POM_PATH/pom.xml" ]; then
   echo "Moving built jar file $JAR_PATH into $APP_HOME for later deployment..."
   mv ${JAR_PATH} ${APP_HOME}/ROOT.jar
 
+  ls -al ./target
+  ls -al ${APP_HOME}
+
   popd &> /dev/null
 
 else
