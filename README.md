@@ -3,10 +3,10 @@ SpringBoot - CentOS Docker image
 
 All of that is sampled from [Wildfly openshift s2i project](https://github.com/openshift-s2i/s2i-wildfly)
 
-Supported tags and respective `Dockerfile` links for image [s2i-springboot](https://hub.docker.com/r/bespinsbl/s2i-springboot/) 
+Supported tags and respective `Dockerfile` links for image [s2i-spring](https://hub.docker.com/r/bespinsbl/s2i-spring/) 
 --------------------
 
-* `jdk-8` [(jdk-8)](https://github.com/bespin-sbl/s2i-springboot/blob/master/jdk-8/Dockerfile)
+* `jdk-8` [(jdk-8)](https://github.com/bespin-sbl/s2i-spring/blob/master/jdk-8/Dockerfile)
 
 This repository contains the source for building various versions of
 the Spring Boot application as a reproducible Docker image using
@@ -29,13 +29,13 @@ Installation
 This image is available on DockerHub. To download it, run:
 
 ```
-$ docker pull bespinsbl/s2i-springboot:jdk-$JDK_VERSION
+$ docker pull bespinsbl/s2i-spring:jdk-$JDK_VERSION
 ```
 
 for example
 
 ```
-$ docker pull bespinsbl/s2i-springboot:jdk-8 
+$ docker pull bespinsbl/s2i-spring:jdk-8 
 ```
 
 Usage
@@ -45,7 +45,7 @@ using standalone [S2I](https://github.com/openshift/source-to-image) and then ru
 resulting image with [Docker](http://docker.io) execute:
 
 ```
-$ s2i build git://github.com/bespin-sbl/sample-spring bespin-sbl/s2i-springboot:8.5-jdk-8 sample-spring
+$ s2i build git://github.com/bespin-sbl/sample-spring bespin-sbl/s2i-spring:jdk-8 sample-spring
 $ docker run -p 8080:8080 sample-spring
 ```
 
@@ -74,7 +74,7 @@ Image version structure
 ##### Structure: name/1-2-3
 1. Java version - jdk-8
 
-Example: `bespin-sbl/s2i-springboot:jdk-8`
+Example: `bespin-sbl/s2i-spring:jdk-8`
 
 Environment variables
 ---------------------
