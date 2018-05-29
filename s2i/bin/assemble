@@ -1,0 +1,112 @@
+#!/bin/bash
+
+APP_HOME=${APP_HOME:"/apps"}
+
+# Source code provided to S2I is at ${HOME}
+LOCAL_SOURCE_DIR=${HOME}
+mkdir -p ${LOCAL_SOURCE_DIR}
+
+# the subdirectory within LOCAL_SOURCE_DIR from where we should copy build
+# artifacts (*.war, *.jar)
+ARTIFACT_DIR=${ARTIFACT_DIR:-target}
+
+MAVEN_ARGS=${MAVEN_ARGS:=""}
+MAVEN_SETTINGS=${MAVEN_SETTINGS:=""}
+MAVEN_ARGS_APPEND=${MAVEN_ARGS_APPEND:=""}
+
+POM_PATH=${POM_PATH:"."}
+
+VERSION=${VERSION:=""}
+
+# Copy the source for compilation
+cp -Rf /opt/s2i/destination/src/. ${LOCAL_SOURCE_DIR}
+chgrp -R 0 ${LOCAL_SOURCE_DIR}
+chmod -R g+rw ${LOCAL_SOURCE_DIR}
+
+# If a pom.xml is present, this is a normal build scenario
+# so run maven.
+if [ -f "$LOCAL_SOURCE_DIR/$POM_PATH/pom.xml" ]; then
+
+  pushd ${LOCAL_SOURCE_DIR}/${POM_PATH} &> /dev/null
+
+  if [ -z "$MAVEN_ARGS" ]; then
+    export MAVEN_ARGS="package -DskipTests"
+  fi
+
+  # If MAVEN_SETTINGS specified will always add to MAVEN_ARGS
+  # Can be relative to application root
+  # Can be global to image
+  if [ -z "$MAVEN_SETTINGS" ]; then
+    export MAVEN_ARGS="$MAVEN_ARGS -s $HOME/.m2/settings.xml"
+  else
+    if [[ "$MAVEN_SETTINGS" = /* ]]; then
+       [ ! -e "$MAVEN_SETTINGS" ] && echo "Specified settings file does not exist in the image. [$MAVEN_SETTINGS]" && exit 1
+       export MAVEN_ARGS="$MAVEN_ARGS -s $MAVEN_SETTINGS"
+    else
+       [ ! -e "$LOCAL_SOURCE_DIR/$MAVEN_SETTINGS" ] && echo "Specified settings file does not exist in your source code. [$MAVEN_SETTINGS]" && exit 1
+       export MAVEN_ARGS="$MAVEN_ARGS -s $LOCAL_SOURCE_DIR/$MAVEN_SETTINGS"
+   fi
+  fi
+
+  # Append user provided args
+  if [ -n "$MAVEN_ARGS_APPEND" ]; then
+    export MAVEN_ARGS="$MAVEN_ARGS $MAVEN_ARGS_APPEND"
+  fi
+
+  echo " Found pom.xml... attempting to build with 'mvn ${MAVEN_ARGS}'"
+
+  # Replace version
+  if [ ! -z "$VERSION" ]; then
+    POM_FILE="./pom.xml"
+
+    VER1="<version>[0-9a-zA-Z\.\-]\+<\/version>"
+    VER2="<version>${VERSION}<\/version>"
+
+    TEMP_FILE="/tmp/toast-pom.tmp"
+
+    sed "s/$VER1/$VER2/;10q;" ${POM_FILE} > ${TEMP_FILE}
+    sed "1,10d" ${POM_FILE} >> ${TEMP_FILE}
+
+    cp -rf ${TEMP_FILE} ${POM_FILE}
+  fi
+
+  mvn --version
+  mvn ${MAVEN_ARGS}
+
+  ERR=$?
+  if [ ${ERR} -ne 0 ]; then
+    echo "Aborting due to error code $ERR from mvn $MAVEN_ARGS"
+    exit ${ERR}
+  fi
+
+  JAR_NAME=${JAR_NAME:="*.war"}
+  JAR_PATH=$(find -name ${JAR_NAME})
+
+  if [ ! -f ${JAR_PATH} ]; then
+    echo "Aborting due to error : File not found, moving $JAR_PATH file, maybe it doesn't exist"
+    exit 1
+  fi
+
+  echo "Moving built war file $JAR_PATH into $APP_HOME for later deployment..."
+  mv ${JAR_PATH} ${APP_HOME}/ROOT.jar
+
+  popd &> /dev/null
+
+else
+
+  JAR_NAME=${JAR_NAME:="*.war"}
+  JAR_PATH=$(find -name ${JAR_NAME})
+
+  if [ ! -f ${JAR_PATH} ]; then
+    echo "Aborting due to error : File not found, moving $JAR_PATH file, maybe it doesn't exist"
+    exit 1
+  fi
+
+  echo "Moving built war file $JAR_PATH into $APP_HOME for later deployment..."
+  mv ${JAR_PATH} ${APP_HOME}/ROOT.jar
+
+fi
+
+echo "...done"
+
+exit 0

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+APP_HOME=${APP_HOME:"/app"}
+
+java -jar ${APP_HOME}/ROOT.jar
