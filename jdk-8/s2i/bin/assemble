@@ -82,7 +82,7 @@ if [ -f "$LOCAL_SOURCE_DIR/$POM_PATH/pom.xml" ]; then
     exit ${ERR}
   fi
 
-  JAR_NAME=${JAR_NAME:="*.war"}
+  JAR_NAME=${JAR_NAME:="*.jar"}
   JAR_PATH=$(find -name ${JAR_NAME})
 
   if [ ! -f ${JAR_PATH} ]; then
@@ -90,14 +90,14 @@ if [ -f "$LOCAL_SOURCE_DIR/$POM_PATH/pom.xml" ]; then
     exit 1
   fi
 
-  echo "Moving built war file $JAR_PATH into $APP_HOME for later deployment..."
+  echo "Moving built jar file $JAR_PATH into $APP_HOME for later deployment..."
   mv ${JAR_PATH} ${APP_HOME}/ROOT.jar
 
   popd &> /dev/null
 
 else
 
-  JAR_NAME=${JAR_NAME:="*.war"}
+  JAR_NAME=${JAR_NAME:="*.jar"}
   JAR_PATH=$(find -name ${JAR_NAME})
 
   if [ ! -f ${JAR_PATH} ]; then
@@ -105,7 +105,7 @@ else
     exit 1
   fi
 
-  echo "Moving built war file $JAR_PATH into $APP_HOME for later deployment..."
+  echo "Moving built jar file $JAR_PATH into $APP_HOME for later deployment..."
   mv ${JAR_PATH} ${APP_HOME}/ROOT.jar
 
 fi
