@@ -1,5 +1,5 @@
 #!/bin/bash
 
-APP_HOME=${APP_HOME:"/apps"}
+APP_HOME=${APP_HOME:""}
 
 exec java -jar ${APP_HOME}/ROOT.jar
