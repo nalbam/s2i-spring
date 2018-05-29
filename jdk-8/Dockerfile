@@ -10,10 +10,10 @@ ENV MAVEN_VERSION=3.5.3 \
     APP_HOME=/apps \
     POM_PATH=.
 
-LABEL io.k8s.description="Platform for building and running Spring Boot applications on Openjdk 1.8" \
-      io.k8s.display-name="SpringBoot (Openjdk 1.8)" \
+LABEL io.k8s.description="Platform for building and running Spring Boot applications" \
+      io.k8s.display-name="SpringBoot (openjdk 1.8)" \
       io.openshift.expose-services="8080:http" \
-      io.openshift.tags="builder,spring,springboot" \
+      io.openshift.tags="builder,java,springboot" \
       io.openshift.s2i.destination="/opt/s2i/destination"
 
 # Install Maven, Java
