@@ -45,7 +45,7 @@ using standalone [S2I](https://github.com/openshift/source-to-image) and then ru
 resulting image with [Docker](http://docker.io) execute:
 
 ```
-$ s2i build git://github.com/bespin-sbl/sample-spring bespin-sbl/s2i-spring:jdk-8 sample-spring
+$ s2i build git://github.com/bespin-sbl/sample-spring bespinsbl/s2i-spring:jdk-8 sample-spring
 $ docker run -p 8080:8080 sample-spring
 ```
 
@@ -74,7 +74,7 @@ Image version structure
 ##### Structure: name/1-2-3
 1. Java version - jdk-8
 
-Example: `bespin-sbl/s2i-spring:jdk-8`
+Example: `bespinsbl/s2i-spring:jdk-8`
 
 Environment variables
 ---------------------
