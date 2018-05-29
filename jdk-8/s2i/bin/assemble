@@ -1,6 +1,6 @@
 #!/bin/bash
 
-APP_HOME=${APP_HOME:""}
+APP_HOME=${APP_HOME:="/apps"}
 
 # Source code provided to S2I is at ${HOME}
 LOCAL_SOURCE_DIR=${HOME}
@@ -14,7 +14,7 @@ MAVEN_ARGS=${MAVEN_ARGS:=""}
 MAVEN_SETTINGS=${MAVEN_SETTINGS:=""}
 MAVEN_ARGS_APPEND=${MAVEN_ARGS_APPEND:=""}
 
-POM_PATH=${POM_PATH:""}
+POM_PATH=${POM_PATH:="."}
 
 VERSION=${VERSION:=""}
 
