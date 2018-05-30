@@ -84,8 +84,8 @@ if [ -f "$LOCAL_SOURCE_DIR/$POM_PATH/pom.xml" ]; then
 
   ls -al ./target
 
-  JAR_NAME=${JAR_NAME:="*.jar"}
-  JAR_PATH=$(find ./target/${JAR_NAME})
+  JAR_NAME=${JAR_NAME:="./target/*.jar"}
+  JAR_PATH=$(find ${JAR_NAME})
 
   if [ ! -f ${JAR_PATH} ]; then
     echo "Aborting due to error : File not found, moving $JAR_PATH file, maybe it doesn't exist"
@@ -101,8 +101,8 @@ if [ -f "$LOCAL_SOURCE_DIR/$POM_PATH/pom.xml" ]; then
 
 else
 
-  JAR_NAME=${JAR_NAME:="*.jar"}
-  JAR_PATH=$(find ./target/${JAR_NAME})
+  JAR_NAME=${JAR_NAME:="./target/*.jar"}
+  JAR_PATH=$(find ${JAR_NAME})
 
   if [ ! -f ${JAR_PATH} ]; then
     echo "Aborting due to error : File not found, moving $JAR_PATH file, maybe it doesn't exist"
