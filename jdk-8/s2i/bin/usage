@@ -1,8 +1,7 @@
 #!/bin/sh
 
 cat <<EOF
-This is an S2I java running with openjdk-1.8 compiling with maven-3.5.3 centos base image responsible for consuming a java maven project
-and deploying it onto Spring Boot application server.
+Spring Boot application server.
 To use it, install S2I: https://github.com/openshift/source-to-image.
 
 Sample invocation:
