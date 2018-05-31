@@ -82,8 +82,6 @@ if [ -f "$LOCAL_SOURCE_DIR/$POM_PATH/pom.xml" ]; then
     exit ${ERR}
   fi
 
-  ls -al ./target
-
   JAR_NAME=${JAR_NAME:="./target/*.jar"}
   JAR_PATH=$(find ${JAR_NAME})
 
