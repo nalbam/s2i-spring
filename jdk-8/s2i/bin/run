@@ -2,4 +2,4 @@
 
 APP_HOME=${APP_HOME:="/apps"}
 
-exec java -jar ${APP_HOME}/ROOT.jar -Duser.home=$HOME
+exec java -jar ${APP_HOME}/ROOT.jar
