@@ -7,7 +7,7 @@ EXPOSE 8778
 
 ENV MAVEN_VERSION=3.5.3 \
     JAVA="java-1.8.0-openjdk java-1.8.0-openjdk-devel" \
-    JAVA_TOOL_OPTIONS="-Dfile.encoding=UTF8 -Duser.home=$HOME" \
+    JAVA_TOOL_OPTIONS="-Dfile.encoding=UTF8 -Duser.home=/apps/home" \
     APP_HOME=/apps \
     POM_PATH=.
 
